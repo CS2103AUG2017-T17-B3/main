@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -38,6 +39,7 @@ public class MainWindow extends UiPart<Region> {
 
     private Stage primaryStage;
     private Logic logic;
+    private UiManager uiManager;
 
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
@@ -55,6 +57,9 @@ public class MainWindow extends UiPart<Region> {
     private MenuItem helpMenuItem;
 
     @FXML
+    private MenuItem fileMenuItem;
+
+    @FXML
     private StackPane personListPanelPlaceholder;
 
     @FXML
@@ -63,7 +68,7 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     private StackPane statusbarPlaceholder;
 
-    public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic) {
+    public MainWindow(Stage primaryStage, Config config, UserPrefs prefs, Logic logic, UiManager uiManager) {
         super(FXML);
 
         // Set dependencies
@@ -71,6 +76,7 @@ public class MainWindow extends UiPart<Region> {
         this.logic = logic;
         this.config = config;
         this.prefs = prefs;
+        this.uiManager = uiManager;
 
         // Configure the UI
         setTitle(config.getAppTitle());
@@ -194,6 +200,11 @@ public class MainWindow extends UiPart<Region> {
 
     void show() {
         primaryStage.show();
+    }
+
+    @FXML
+    public void handleAdd() throws IOException {
+        AddCommandWindow controller = uiManager.startAddWindow(primaryStage);
     }
 
     /**

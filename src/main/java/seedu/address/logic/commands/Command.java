@@ -24,6 +24,8 @@ public abstract class Command {
         return String.format(Messages.MESSAGE_PERSONS_LISTED_OVERVIEW, displaySize);
     }
 
+    public abstract String commandType();
+
     /**
      * Executes the command and returns the result message.
      *
@@ -40,4 +42,6 @@ public abstract class Command {
     public void setData(Model model, CommandHistory history, UndoRedoStack undoRedoStack) {
         this.model = model;
     }
+
+
 }

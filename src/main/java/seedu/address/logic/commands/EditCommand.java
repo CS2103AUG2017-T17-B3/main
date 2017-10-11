@@ -66,6 +66,11 @@ public class EditCommand extends UndoableCommand {
     }
 
     @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
+
+    @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
 

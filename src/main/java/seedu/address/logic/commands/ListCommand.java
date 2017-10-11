@@ -11,6 +11,10 @@ public class ListCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Listed all persons";
 
+    @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
 
     @Override
     public CommandResult execute() {

@@ -30,6 +30,11 @@ public class SelectCommand extends Command {
     }
 
     @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
+
+    @Override
     public CommandResult execute() throws CommandException {
 
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();

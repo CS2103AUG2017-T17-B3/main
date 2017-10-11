@@ -1,13 +1,18 @@
 package seedu.address.ui;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
 
 import javafx.application.Platform;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import seedu.address.MainApp;
 import seedu.address.commons.core.ComponentManager;
@@ -53,7 +58,7 @@ public class UiManager extends ComponentManager implements Ui {
         primaryStage.getIcons().add(getImage(ICON_APPLICATION));
 
         try {
-            mainWindow = new MainWindow(primaryStage, config, prefs, logic);
+            mainWindow = new MainWindow(primaryStage, config, prefs, logic, this);
             mainWindow.show(); //This should be called before creating other UI parts
             mainWindow.fillInnerParts();
 
@@ -68,6 +73,33 @@ public class UiManager extends ComponentManager implements Ui {
         prefs.updateLastUsedGuiSetting(mainWindow.getCurrentGuiSetting());
         mainWindow.hide();
         mainWindow.releaseResources();
+    }
+
+    private AddCommandWindow createAddWindow(Stage stage) throws IOException {
+        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/view/AddWindow.fxml"));
+        AnchorPane page = loader.load();
+
+        // Create the dialog Stage.
+        Stage dialogStage = new Stage();
+        dialogStage.setTitle("Add Person");
+        dialogStage.initModality(Modality.WINDOW_MODAL);
+        dialogStage.initOwner(stage);
+        Scene scene = new Scene(page);
+        dialogStage.setScene(scene);
+        dialogStage.getIcons().add(new Image(ICON_APPLICATION));
+
+        // Set the person into the controller.
+        AddCommandWindow controller = loader.getController();
+        controller.setAddStage(dialogStage, logic);
+
+        // Show the dialog and wait until the user closes it
+        dialogStage.showAndWait();
+
+        return controller;
+    }
+
+    public AddCommandWindow startAddWindow(Stage stage) throws IOException{
+        return createAddWindow(stage);
     }
 
     private void showFileOperationAlertAndWait(String description, String details, Throwable cause) {

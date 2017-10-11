@@ -233,12 +233,19 @@ public class UndoRedoStackTest {
 
     class DummyCommand extends Command {
         @Override
+        public String commandType() { return ""; }
+
+        @Override
         public CommandResult execute() {
             return new CommandResult("");
         }
     }
 
     class DummyUndoableCommand extends UndoableCommand {
+        @Override
+        public String commandType() {
+            return "";
+        }
         @Override
         public CommandResult executeUndoableCommand() {
             return new CommandResult("");

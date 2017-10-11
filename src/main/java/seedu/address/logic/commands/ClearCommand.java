@@ -12,6 +12,10 @@ public class ClearCommand extends UndoableCommand {
     public static final String COMMAND_WORD = "clear";
     public static final String MESSAGE_SUCCESS = "Address book has been cleared!";
 
+    @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
 
     @Override
     public CommandResult executeUndoableCommand() {

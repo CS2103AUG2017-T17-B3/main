@@ -28,6 +28,10 @@ public class DeleteCommand extends UndoableCommand {
         this.targetIndex = targetIndex;
     }
 
+    @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
 
     @Override
     public CommandResult executeUndoableCommand() throws CommandException {

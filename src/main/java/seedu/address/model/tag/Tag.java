@@ -30,6 +30,19 @@ public class Tag {
     }
 
     /**
+     * Returns true if a given string of tags have valid tag names.
+     */
+    public static boolean isValidTags(String inputTags) {
+        String[] tagList = inputTags.split(",");
+        for(String tag: tagList) {
+            if(!isValidTagName(tag.trim())) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Returns true if a given string is a valid tag name.
      */
     public static boolean isValidTagName(String test) {

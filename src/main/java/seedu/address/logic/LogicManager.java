@@ -46,6 +46,20 @@ public class LogicManager extends ComponentManager implements Logic {
     }
 
     @Override
+    public CommandResult execute(Command command) throws CommandException, ParseException {
+        logger.info("----------------[USER COMMAND][" + command.commandType() + "]");
+        try {
+            command.setData(model, history, undoRedoStack);
+            CommandResult result = command.execute();
+            undoRedoStack.push(command);
+            return result;
+        } finally {
+            history.add(command.commandType());
+        }
+    }
+
+
+    @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
         return model.getFilteredPersonList();
     }

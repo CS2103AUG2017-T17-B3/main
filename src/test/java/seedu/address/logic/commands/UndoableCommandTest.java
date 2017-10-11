@@ -54,6 +54,11 @@ public class UndoableCommandTest {
         }
 
         @Override
+        public String commandType() {
+            return "";
+        }
+
+        @Override
         public CommandResult executeUndoableCommand() throws CommandException {
             ReadOnlyPerson personToDelete = model.getFilteredPersonList().get(0);
             try {

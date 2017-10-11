@@ -47,6 +47,11 @@ public class AddCommand extends UndoableCommand {
     }
 
     @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
+
+    @Override
     public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
         try {

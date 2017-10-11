@@ -31,6 +31,11 @@ public class HistoryCommand extends Command {
     }
 
     @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
+
+    @Override
     public void setData(Model model, CommandHistory history, UndoRedoStack undoRedoStack) {
         requireNonNull(history);
         this.history = history;

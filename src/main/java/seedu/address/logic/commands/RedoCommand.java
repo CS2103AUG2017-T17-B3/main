@@ -17,6 +17,11 @@ public class RedoCommand extends Command {
     public static final String MESSAGE_FAILURE = "No more commands to redo!";
 
     @Override
+    public String commandType() {
+        return COMMAND_WORD;
+    }
+
+    @Override
     public CommandResult execute() throws CommandException {
         requireAllNonNull(model, undoRedoStack);
 

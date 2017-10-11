@@ -7,6 +7,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -20,6 +22,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.tag.Tag;
+import seedu.address.model.tag.UniqueTagList;
 
 /**
  * Parses input arguments and creates a new AddCommand object
@@ -50,6 +53,21 @@ public class AddCommandParser implements Parser<AddCommand> {
 
             return new AddCommand(person);
         } catch (IllegalValueException ive) {
+            throw new ParseException(ive.getMessage(), ive);
+        }
+    }
+
+    public static Collection<Tag> getTagsFromArgs(String allTags) throws ParseException {
+        try {
+            Collection<Tag> tagList = new ArrayList<>();
+            String[] tags = allTags.split(",");
+
+            for(String separateTag : tags) {
+                tagList.add(new Tag(separateTag.trim()));
+            }
+
+            return tagList;
+        } catch(IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
     }
