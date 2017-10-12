@@ -7,6 +7,7 @@ import com.google.common.eventbus.Subscribe;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.input.KeyCombination;
@@ -21,6 +22,9 @@ import seedu.address.commons.events.ui.ExitAppRequestEvent;
 import seedu.address.commons.events.ui.ShowHelpRequestEvent;
 import seedu.address.commons.util.FxViewUtil;
 import seedu.address.logic.Logic;
+import seedu.address.logic.commands.ExitCommand;
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.logic.parser.exceptions.ParseException;
 import seedu.address.model.UserPrefs;
 
 /**
@@ -200,9 +204,12 @@ public class MainWindow extends UiPart<Region> {
      * Closes the application.
      */
     @FXML
-    private void handleExit() {
-        raise(new ExitAppRequestEvent());
+    private void handleExit() throws CommandException, ParseException{
+        if(UiAlert.showExitAlert()) {
+            raise(new ExitAppRequestEvent());
+        }
     }
+
 
     public PersonListPanel getPersonListPanel() {
         return this.personListPanel;
