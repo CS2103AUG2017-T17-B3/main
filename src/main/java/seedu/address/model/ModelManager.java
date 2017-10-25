@@ -39,6 +39,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
     private HashMap<Tag, String> tagColours = new HashMap<>();
+    private UserPrefs colourPrefs;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -51,6 +52,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        tagColours = userPrefs.getColourMap();
     }
 
     public ModelManager() {
@@ -128,6 +130,7 @@ public class ModelManager extends ComponentManager implements Model {
                 updateAllPersons(tagColours);
                 indicateAddressBookChanged();
                 raise(new NewTagColourChangedEvent(addressBook.getPersonList()));
+                colourPrefs.updateColorMap(tagColours);
                 return;
             }
         }
