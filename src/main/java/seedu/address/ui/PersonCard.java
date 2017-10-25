@@ -9,6 +9,7 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.tag.Tag;
 
 
 /**
@@ -38,14 +39,6 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label id;
     @FXML
-    private Label phone;
-    @FXML
-    private Label birthday;
-    @FXML
-    private Label address;
-    @FXML
-    private Label email;
-    @FXML
     private FlowPane tags;
 
     public PersonCard(ReadOnlyPerson person, int displayedIndex) {
@@ -53,6 +46,7 @@ public class PersonCard extends UiPart<Region> {
         this.person = person;
         id.setText(displayedIndex + ". ");
         initTags(person);
+        setPinIcon(person);
         bindListeners(person);
     }
 
@@ -62,10 +56,6 @@ public class PersonCard extends UiPart<Region> {
      */
     private void bindListeners(ReadOnlyPerson person) {
         name.textProperty().bind(Bindings.convert(person.nameProperty()));
-        phone.textProperty().bind(Bindings.convert(person.phoneProperty()));
-        birthday.textProperty().bind(Bindings.convert(person.birthdayProperty()));
-        address.textProperty().bind(Bindings.convert(person.addressProperty()));
-        email.textProperty().bind(Bindings.convert(person.emailProperty()));
         pinIcon.setImage(setPinIcon(person));
         person.tagProperty().addListener((observable, oldValue, newValue) -> {
             tags.getChildren().clear();
@@ -73,8 +63,24 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
+    /**
+     * Initialises all tags in FlowPane to show the person's tags and their colour.
+     * @param person
+     */
     private void initTags(ReadOnlyPerson person) {
-        person.getTags().forEach(tag -> tags.getChildren().add(new Label(tag.tagName)));
+        person.getTags().forEach(tag -> {
+            Label tagLabel = new Label(tag.tagName);
+            setTagColour(tagLabel, tag, person);
+            tags.getChildren().add(tagLabel);
+        });
+    }
+
+    private void setTagColour(Label tagLabel, Tag tag, ReadOnlyPerson person) {
+        if (person.getTagColours().containsKey(tag)) {
+            tagLabel.setStyle("-fx-background-color: " + person.getTagColours().get(tag));
+        } else {
+            tagLabel.setStyle("-fx-background-color: blue");
+        }
     }
 
     @Override
@@ -96,9 +102,8 @@ public class PersonCard extends UiPart<Region> {
     }
 
     private Image setPinIcon(ReadOnlyPerson person) {
-        Image pinned = new Image(PIN_ICON);
         if (person.isPinned()) {
-            return pinned;
+            return new Image(PIN_ICON);
         } else {
             return null;
         }
