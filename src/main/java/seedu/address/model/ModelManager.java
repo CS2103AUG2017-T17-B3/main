@@ -52,6 +52,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        colourPrefs = userPrefs;
         HashMap<String, String> stringColourMap = userPrefs.getColourMap();
         if (stringColourMap != null) {
             try {
@@ -63,6 +64,7 @@ public class ModelManager extends ComponentManager implements Model {
                 //it shouldn't ever reach here
             }
         }
+        updateAllPersons(tagColours);
     }
 
     public ModelManager() {
