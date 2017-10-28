@@ -14,7 +14,7 @@ public class UserPrefs {
     private GuiSettings guiSettings;
     private String addressBookFilePath = "data/addressbook.xml";
     private String addressBookName = "MyAddressBook";
-    private HashMap<Tag, String> colourMap;
+    private HashMap<String, String> colourMap;
 
     public UserPrefs() {
         this.setGuiSettings(500, 500, 10, 10);
@@ -49,16 +49,19 @@ public class UserPrefs {
         this.addressBookName = addressBookName;
     }
 
-    public HashMap<Tag, String> getColourMap() {
+    public HashMap<String, String> getColourMap() {
         return colourMap;
     }
 
-    public void setColourMap(HashMap<Tag, String> colourMap) {
+    public void setColourMap(HashMap<String, String> colourMap) {
         this.colourMap = colourMap;
     }
 
     public void updateColorMap(HashMap<Tag, String> newMap){
-        colourMap = newMap;
+        colourMap.clear();
+        for (HashMap.Entry<Tag,String> newEntry : newMap.entrySet()) {
+            colourMap.put(newEntry.getKey().toSimpleString(), newEntry.getValue());
+        }
     }
 
     @Override

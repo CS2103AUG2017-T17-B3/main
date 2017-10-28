@@ -52,7 +52,17 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        tagColours = userPrefs.getColourMap();
+        HashMap<String, String> stringColourMap = userPrefs.getColourMap();
+        if (stringColourMap != null) {
+            try {
+                for (HashMap.Entry<String, String> entry : stringColourMap.entrySet()) {
+                    tagColours.put(new Tag(entry.getKey()), entry.getValue());
+                }
+
+            } catch (IllegalValueException ive) {
+                //it shouldn't ever reach here
+            }
+        }
     }
 
     public ModelManager() {
